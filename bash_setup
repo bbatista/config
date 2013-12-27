@@ -1,0 +1,74 @@
+# Bash configuration file, just include it in the .bashrc or .bash_profile
+
+#colors file
+if [ -f ~/config/bashcolors ]; then
+        . ~/config/bashcolors
+fi
+
+# Useful variables
+export LC_CTYPE=en_US.iso-8859-1
+export LANG="$LC_CTYPE"
+export DEV_BRANCH='seller_dev'
+export SOURCE_PATH=~/dev/bomnegocio
+
+
+# Git aliases
+alias gpwb='git branch | grep [*] | sed "s/[*]//g"'
+alias vaila='vemca && git push origin `gpwb`'
+alias vemca='git pull --rebase origin `gpwb`'
+
+alias todev='git checkout $DEV_BRANCH'
+alias tomaster='git checkout master'
+
+# Aliases for bomnegocio
+alias amke='make'
+alias vaifilho='make -C $SOURCE_PATH rept remt reml rb rp rw-no-min ti'
+alias vaiphp='make -C $SOURCE_PATH rept rp rb rw-no-min'
+alias vaitrans='make -C $SOURCE_PATH ti rb'
+alias vaiscript='make -C $SOURCE_PATH rw-no-min'
+alias vailist='make -C $SOURCE_PATH remt reml rw-no-min rb'
+alias vaiporra='make -C $SOURCE_PATH rc kill clean cleandir cleandir++ && make rall'
+alias bdb='$(make -C $SOURCE_PATH rinfo | grep psql | grep -v "another host")'
+alias redis_account='$(make -C $SOURCE_PATH rinfo | grep "redis accounts server" | perl -pe "s/ - redis accounts server//g")'
+alias redis_linkmanager='$(make -C $SOURCE_PATH rinfo | grep "redis link manager server" | perl -F"\s+-\s+" -nale "print @F[0]")'
+alias redis_paymentapi='$(make -C $SOURCE_PATH rinfo | grep "redis payment api server" | perl -F"\s+-\s+" -nale "print @F[0]")'
+
+# git branch
+parse_git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) /'
+}
+
+# Define basic PS1 with coloring: [User ~/Folder]
+PS1="[$Green\u$Color_Off@$Cyan\h$Color_Off $Blue\w$Color_Off]"
+# Define git stuff, if is in a git folder, it shows the name of the branch.
+# And color it yellow when have no changes, and red if there is.
+PS1=$PS1'$(git branch &>/dev/null;\
+if [ $? -eq 0 ]; then \
+  echo "$(echo `git status` | grep "nothing to commit" > /dev/null 2>&1; \
+  if [ "$?" -eq "0" ]; then \
+    # @4 - Clean repository - nothing to commit
+    echo "'$Yellow'"$(__git_ps1 " (%s)"); \
+  else \
+    # @5 - Changes to working tree
+    echo "'$IRed'"$(__git_ps1 " (%s)"); \
+  fi)"; \
+fi)'
+export PS1=$PS1$Color_Off' \$ ';
+
+# Helper function to get regress ports
+function genport() {
+    echo $(expr \( $(id -u) - \( $(id -u) / 100 \) \* 100 \) \* 200 + 20000 + ${1})
+}
+
+# function to call a transaction
+trans() {
+    trans_port=$(genport 5)
+    printf "cmd:$(echo "$@" | tr ' ' '\n' | tr '\#' ' ')\ncommit:1\nend\n---\n"
+    printf "cmd:$(echo "$@" | tr ' ' '\n' | tr '\#' ' ')\ncommit:1\nend\n" | nc localhost ${trans_port}
+}
+
+# Move myself directly to the source path
+cd $SOURCE_PATH
+
+PATH=$PATH:$HOME/bin
+export PATH
