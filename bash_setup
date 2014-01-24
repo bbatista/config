@@ -1,8 +1,17 @@
 # Bash configuration file, just include it in the .bashrc or .bash_profile
 
+# Predictable SSH authentication socket location.
+SOCK="/tmp/ssh-agent-$USER-screen"
+if test $SSH_AUTH_SOCK && [ $SSH_AUTH_SOCK != $SOCK ]
+then
+	rm -f /tmp/ssh-agent-$USER-screen
+	ln -sf $SSH_AUTH_SOCK $SOCK
+	export SSH_AUTH_SOCK=$SOCK
+fi
+
 #colors file
-if [ -f ~/config/bashcolors ]; then
-        . ~/config/bashcolors
+if [ -f ~/dev/config/bashcolors ]; then
+        . ~/dev/config/bashcolors
 fi
 
 # Useful variables
