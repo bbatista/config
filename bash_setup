@@ -23,7 +23,7 @@ export SOURCE_PATH=~/dev/bomnegocio
 
 # Git aliases
 alias gpwb='git branch | grep [*] | sed "s/[*]//g"'
-alias vaila='vemca && git push origin `gpwb`'
+alias vaila='git push origin `gpwb`'
 alias vemca='git pull --rebase origin `gpwb`'
 
 alias todev='git checkout $DEV_BRANCH'
