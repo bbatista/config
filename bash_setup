@@ -41,7 +41,7 @@ alias bdb='$(make -C $SOURCE_PATH rinfo | grep psql | grep -v "another host")'
 alias redis_account='$(make -C $SOURCE_PATH rinfo | grep "redis accounts server" | perl -pe "s/ - redis accounts server//g")'
 alias redis_linkmanager='$(make -C $SOURCE_PATH rinfo | grep "redis link manager server" | perl -F"\s+-\s+" -nale "print @F[0]")'
 alias redis_paymentapi='$(make -C $SOURCE_PATH rinfo | grep "redis payment api server" | perl -F"\s+-\s+" -nale "print @F[0]")'
-
+alias letswork='screen -D -r bruno_working'
 # git branch
 parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1) /'
