@@ -26,8 +26,11 @@ alias gpwb='git branch | grep [*] | sed "s/[*]//g"'
 alias vaila='git push origin `gpwb`'
 alias vemca='git pull --rebase origin `gpwb`'
 
-alias todev='git checkout $DEV_BRANCH'
 alias tomaster='git checkout master'
+alias tostable='git checkout stable'
+alias torelease='git checkout release'
+alias goto='git checkout'
+alias start='git checkout -b'
 
 # Aliases for bomnegocio
 alias amke='make'
