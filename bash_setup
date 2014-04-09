@@ -84,3 +84,6 @@ cd $SOURCE_PATH
 
 PATH=$PATH:$HOME/bin
 export PATH
+
+# Rake autocomplete
+complete -C  ~/dev/config/rake_autocomplete.rb -o default rake
