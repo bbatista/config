@@ -1,5 +1,7 @@
 # Bash configuration file, just include it in the .bashrc or .bash_profile
 
+# configure the bash to work like vim
+set -o vi
 # Predictable SSH authentication socket location.
 SOCK="/tmp/ssh-agent-$USER-screen"
 if test $SSH_AUTH_SOCK && [ $SSH_AUTH_SOCK != $SOCK ]
@@ -8,6 +10,9 @@ then
 	ln -sf $SSH_AUTH_SOCK $SOCK
 	export SSH_AUTH_SOCK=$SOCK
 fi
+
+# Make sure the GPG agent is working
+/usr/bin/gpg-agent --daemon --use-standard-socket
 
 #colors file
 if [ -f ~/dev/config/bashcolors ]; then
@@ -31,6 +36,7 @@ alias tostable='git checkout stable'
 alias torelease='git checkout release'
 alias goto='git checkout'
 alias start='git checkout -b'
+alias comita='git commit -S'
 
 # Aliases for bomnegocio
 alias amke='make'
