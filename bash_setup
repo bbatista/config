@@ -26,6 +26,7 @@ export DEV_BRANCH='seller_dev'
 export SOURCE_PATH=~/dev/bomnegocio
 
 
+alias cls='clear'
 # Git aliases
 alias gpwb='git branch | grep [*] | sed "s/[*]//g"'
 alias vaila='git push origin `gpwb`'
