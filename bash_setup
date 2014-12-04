@@ -54,6 +54,7 @@ alias redis_paymentapi='$(make -C $SOURCE_PATH rinfo | grep "redis payment api s
 alias letswork='screen -D -r bruno_working'
 alias php_i='php -c $SOURCE_PATH/ninja_build/regress/conf/php.ini -a'
 alias roda='bundle exec rake'
+alias liga_xiti='trans bconf_overwrite key:*.*.common.stat_counter.xiti.display value:1 && make apache-restart'
 
 # git branch
 parse_git_branch() {
